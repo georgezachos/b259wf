@@ -3,6 +3,7 @@ from plotly import tools
 import plotly.offline as py
 import plotly.graph_objs as go
 
+
 R1 = np.array([10, 49.9, 91, 30, 68])
 R2 = 100
 R3 = np.array([100, 43.2, 56, 68, 33, 240])
@@ -14,7 +15,7 @@ N = len(tvec)
 Vin = np.sin(2 * np.pi * tvec * f)  # + np.sin(
 # 2 * np.pi * np.arange(fs * T) * 0.22 * f / fs)
 A = np.linspace(0, 10, N)
-A = 10
+# A = 10
 Vin *= A
 Vk = np.empty((N, 5))
 Vs = 6
@@ -48,10 +49,14 @@ for k in range(len(R1)):
         Vk_n1 = Vk_n
         Vin_n1 = Vin[n]
         flg_n1 = flg
-        Vk[n, k] = (R2*R3[k]/(R1[k]*R3[k]+R2*R3[k]+R1[k]*R2))*(Vk[n, k]-np.sign(Vk[n, k])*Vs*R1[k]/R2)*outC[k]
+
+        Vk[n, k] = (R2*R3[k]/(R1[k]*R3[k]+R2*R3[k]+R1[k]*R2))\
+            * (Vk[n, k]-np.sign(Vk[n, k])*Vs*R1[k]/R2)*outC[k]
+
     Vout += Vk[:, k]
     fig.append_trace(go.Scatter(y=Vk[:, k]), 1, 1)
 
+Vout = np.nan_to_num(Vout)
 Vout[1:] += 5*Vin[:-1]
 # Vout += 5*Vin
 # Vout /= 15
@@ -65,8 +70,12 @@ py.plot(fig, filename='simple-subplot.html')
 
 
 fig2 = tools.make_subplots(rows=1, cols=1)
-VoutFFT = np.fft.rfft(Vin)
-trace1 = go.Scatter(y=abs(np.real(VoutFFT)))
-fig2['layout']['xaxis'].update(title='xaxis 4 title', type='log')
+VoutFFT = np.fft.rfft(Vout)
+
+trace1 = go.Scatter(
+    y=20*np.log10(np.abs(VoutFFT)),
+    x=np.fft.rfftfreq(len(Vout), 1/fs))
+
+fig2['layout']['xaxis'].update(title='title', type='log')
 fig2.append_trace(trace1, 1, 1)
 py.plot(fig2, filename='simple-subplot2.html')
