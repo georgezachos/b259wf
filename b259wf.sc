@@ -1,11 +1,11 @@
 FaustB259wf : UGen
 {
-  *ar { | in1, gain(0.0), lowpass(0.0), offset(0.0) |
-      ^this.multiNew('audio', in1, gain, lowpass, offset)
+  *ar { | in1, fold(0.0), lowpass(0.0), offset(0.0) |
+      ^this.multiNew('audio', in1, fold, lowpass, offset)
   }
 
-  *kr { | in1, gain(0.0), lowpass(0.0), offset(0.0) |
-      ^this.multiNew('control', in1, gain, lowpass, offset)
+  *kr { | in1, fold(0.0), lowpass(0.0), offset(0.0) |
+      ^this.multiNew('control', in1, fold, lowpass, offset)
   } 
 
   checkInputs {
@@ -21,5 +21,8 @@ FaustB259wf : UGen
   }
 
   name { ^"FaustB259wf" }
+
+
+  info { ^"Generated with Faust" }
 }
 

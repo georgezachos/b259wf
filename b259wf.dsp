@@ -2,7 +2,7 @@ import("stdfaust.lib");
 import("basics.lib");
 import("maths.lib");
 
-gain = hslider("gain", 0, 0, 1, 0.001): si.smooth(0.999);
+fold = hslider("fold", 0, 0, 1, 0.001): si.smooth(0.999);
 offset = hslider("offset", 0, -1, 1, 0.001): si.smooth (0.999);
 LP = hslider("lowpass", 0, 0, 1, 0.001): lin2LogGain: si.smooth (0.999);
 scale(x,mn,mx,a,b) = a+(b-a)*(x-mn)/(mx-mn);
@@ -34,4 +34,4 @@ folderBranches(sig) = sig <: par(i, 5, revClip(invClip(sig,i), i));
 wf(sig) = sig <: ( (folderBranches(sig) :> _) + (5.*sig:fi.lowpass(5,SR/2.6)) ):fi.lowpass(1,scale(LP,0,1,1300,SR/2.6));
 
 
-process = (_*term1(0)*scale(gain,0.,1.,1.,20.) + scale(offset,-1,1,0-term1(2),term1(2))) : wf(_)/6. : ef.cubicnl(0.0,0):fi.dcblockerat(10);
+process = (_*term1(0)*scale(fold,0.,1.,1.,20.) + scale(offset,-1,1,0-term1(2),term1(2))) : wf(_)/6. : ef.cubicnl(0.0,0):fi.dcblockerat(10);
