@@ -28,12 +28,13 @@ Copy the relevant files to the SC extension folder:
 cd b259wf
 cp {b259wf.sc,b259wf.scx} <path/to/SC/extensions>
 ```
+From SuperCollider run:
 
 `Platform.userExtensionDir` to find the user folder, or
 
 `Platform.systemExtensionDir` for the system one
 
-`test.scd` includes an example using the provided sample with SuperCollider.
+The file `test.scd` includes an example using the provided sample with SuperCollider.
 
 ### Manual compilation
 
