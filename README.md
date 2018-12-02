@@ -18,7 +18,7 @@ is dc-blocked.
 
 Clone the repository:
 
-`git clone https://github.com/georgezachos/b259wf`
+`git clone https://github.com/kgwgk/b259wf`
 
 This includes the UGen binary for using with supercollider (the `*.sc` and
 `*.scx` files). Note this is compiled and tested only under OSX. 
